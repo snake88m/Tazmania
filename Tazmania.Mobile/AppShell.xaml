@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Tazmania.Mobile.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Tazmania.Mobile.Views"
+    xmlns:local="clr-namespace:Tazmania.Mobile"
+    xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons">
+
+    <FlyoutItem Title="Ambienti" Icon="ambient.png">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:IOView}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Varchi aperti" Icon="gate.png">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:IOGateView}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Sicurezza" Icon="security.png">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:SecurityView}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Irrigazione" Icon="irrigation.png">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:IrrigationView}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Riscaldamento" Icon="heating.png">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:HeatingView}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Impostazioni" Icon="setting.png">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate views:SettingView}" />
+        </Tab>
+    </FlyoutItem>
+</Shell>

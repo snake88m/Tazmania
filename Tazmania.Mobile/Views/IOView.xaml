@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons"
+             xmlns:converter="clr-namespace:Tazmania.Mobile.Converters"
+             x:Class="Tazmania.Mobile.Views.IOView"
+             Loaded="ContentPage_Loaded"
+             Title="Ambienti">
+
+    <ContentPage.Resources>
+        <converter:IsShutterCommandConverter x:Key="IsShutterCommandConverter" />
+        <converter:IsToggleCommandConverter x:Key="IsToggleCommandConverter" />
+        <converter:BoolReverseConverter x:Key="BoolReverseConverter" />
+        <converter:IOIconConverter x:Key="IOIconConverter" />
+        <converter:IOTextConverter x:Key="IOTextConverter" />
+    </ContentPage.Resources>
+
+    <CollectionView x:Name="CollectionViewIOs"
+                    ItemsSource="{Binding IOGroupeds}" 
+                    IsGrouped="True" 
+                    ItemSizingStrategy="MeasureAllItems">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout Orientation="Vertical"
+                             Span="4"
+                             VerticalItemSpacing="2"
+                             HorizontalItemSpacing="2" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.GroupHeaderTemplate>
+            <DataTemplate>
+                <Label Text="{Binding Name}"
+                       FontSize="18"
+                       FontAttributes="Bold"/>
+            </DataTemplate>
+        </CollectionView.GroupHeaderTemplate>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Border StrokeThickness="1" Stroke="black">
+                    <Grid ColumnDefinitions="auto, *"
+                          RowDefinitions="auto, auto" 
+                          Margin="4,4,4,0">
+
+                        <Image Grid.RowSpan="2" VerticalOptions="Center" 
+                               WidthRequest="50" HeightRequest="50" Margin="0,0,5,0">
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource IOIconConverter}">
+                                    <Binding Path="Major" />
+                                    <Binding Path="IsActive" />
+                                </MultiBinding>
+                            </Image.Source>
+                        </Image>
+
+                        <Label Grid.Column="1" Text="{Binding Description}" HorizontalTextAlignment="End" Margin="0,0,3,0" />
+
+                        <Button Grid.Row="1" Grid.Column="1"
+                                HorizontalOptions="End" Margin="0,8,2,6"
+                                FontSize="8" HeightRequest="30" WidthRequest="100"
+                                Text="{Binding IsActive, Converter={StaticResource IOTextConverter}}"
+                                IsVisible="{Binding Major, Converter={StaticResource IsToggleCommandConverter}}"
+                                IsEnabled="{Binding IsBusy, Converter={StaticResource BoolReverseConverter}}"
+                                Clicked="Toggle_Clicked" />
+
+                        <Grid Grid.Row="1" Grid.Column="1"
+                              HorizontalOptions="End"
+                              ColumnDefinitions="auto, auto, auto" 
+                              IsVisible="{Binding Major, Converter={StaticResource IsShutterCommandConverter}}">
+                            <ImageButton Clicked="ShutterUp_Clicked" 
+                                         IsEnabled="{Binding IsBusy, Converter={StaticResource BoolReverseConverter}}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="MaterialRegular" 
+                                                     Glyph="{x:Static m:MaterialRegular.Arrow_upward}" 
+                                                     Color="{DynamicResource Primary}" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                            <ImageButton Grid.Column="1" Clicked="ShutterDown_Clicked"                  
+                                         IsEnabled="{Binding IsBusy, Converter={StaticResource BoolReverseConverter}}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="MaterialRegular" 
+                                                     Glyph="{x:Static m:MaterialRegular.Arrow_downward}" 
+                                                     Color="{DynamicResource Primary}" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                            <ImageButton Grid.Column="2" Clicked="ShutterStop_Clicked">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="MaterialRegular" 
+                                                     Glyph="{x:Static m:MaterialRegular.Stop}" 
+                                                     Color="{DynamicResource Primary}" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                        </Grid>
+                        
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

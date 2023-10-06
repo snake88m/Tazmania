@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converter="clr-namespace:Tazmania.Mobile.Converters"
+             xmlns:viewModels="clr-namespace:Tazmania.Mobile.ViewModels"
+             x:Class="Tazmania.Mobile.Views.SecurityView"
+             Loaded="ContentPage_Loaded"
+             Title="Sicurezza">
+
+    <ContentPage.Resources>
+        <converter:BoolReverseConverter x:Key="BoolReverseConverter" />
+        <converter:IOIconConverter x:Key="IOIconConverter" />
+        <converter:IOTextConverter x:Key="IOTextConverter" />
+        <converter:IsTextNotEmptyConverter x:Key="IsTextNotEmptyConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <Grid RowDefinitions="auto, auto, auto, auto, auto, auto">
+            <Grid RowDefinitions="auto, auto, auto">
+                <Border Margin="0,7,0,0" Padding="5" 
+                        StrokeThickness="1" Stroke="black" BackgroundColor="#FCA707"
+                        IsVisible="{Binding SOSDetail, Converter={StaticResource IsTextNotEmptyConverter}}">
+                    <Grid ColumnDefinitions="*, auto">
+                        <StackLayout>
+                            <Label Text="SOS" FontSize="20" FontAttributes="Bold" />
+                            <Label Text="{Binding SOSDetail}" FontSize="18"/>
+                        </StackLayout>
+                        <Button Grid.Column="1" Text="SOSPENDI" Margin="5,0,0,0" Command="{Binding DeactiveAllarms}" />
+                    </Grid>
+                </Border>
+
+                <Border Margin="0,7,0,0" Grid.Row="1" Padding="5" 
+                        StrokeThickness="1" Stroke="black" BackgroundColor="#FCA707"
+                        IsVisible="{Binding AntiFireDetail, Converter={StaticResource IsTextNotEmptyConverter}}">
+                    <Grid ColumnDefinitions="*, auto">
+                        <StackLayout>
+                            <Label Text="INCENDIO" FontSize="20" FontAttributes="Bold" />
+                            <Label Text="{Binding AntiFireDetail}" FontSize="18"/>
+                        </StackLayout>
+                        <Button Grid.Column="1" Text="SOSPENDI" Margin="5,0,0,0" Command="{Binding DeactiveAllarms}" />
+                    </Grid>
+                </Border>
+
+                <Border Margin="0,7,0,0" Grid.Row="2" Padding="5" 
+                        StrokeThickness="1" Stroke="black" BackgroundColor="#FCA707"
+                        IsVisible="{Binding AntitheftDetail, Converter={StaticResource IsTextNotEmptyConverter}}">
+                    <Grid ColumnDefinitions="*, auto">
+                        <StackLayout>
+                            <Label Text="INTRUSIONE" FontSize="20" FontAttributes="Bold" />
+                            <Label Text="{Binding AntitheftDetail}" FontSize="18"/>
+                        </StackLayout>
+                        <Button Grid.Column="1" Text="SOSPENDI" Margin="5,0,0,0" Command="{Binding DeactiveAllarms}" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Label Grid.Row="1" Text="Antifurto" FontSize="18" FontAttributes="Bold" Margin="2,0,0,0" />
+            <CollectionView x:Name="AntitheftViews"
+                            Grid.Row="2"
+                            ItemsSource="{Binding Antithefts}" 
+                            ItemSizingStrategy="MeasureAllItems">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="4"
+                                     VerticalItemSpacing="2"
+                                     HorizontalItemSpacing="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeThickness="1" Stroke="black">
+                            <Grid ColumnDefinitions="auto, *"
+                                  RowDefinitions="auto, auto" 
+                                  Margin="4,4,4,0">
+
+                                <Image Grid.RowSpan="2" VerticalOptions="Center" 
+                                        WidthRequest="50" HeightRequest="50" Margin="0,0,5,0">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource IOIconConverter}">
+                                            <Binding Path="Major" />
+                                            <Binding Path="IsActive" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
+
+                                <Label Grid.Column="1" Text="{Binding Description}" HorizontalTextAlignment="End" Margin="0,0,3,0" />
+
+                                <Button Grid.Row="1" Grid.Column="1"
+                                        HorizontalOptions="End" Margin="0,8,2,6"
+                                        FontSize="8" HeightRequest="30" WidthRequest="100"
+                                        Text="{Binding IsActive, Converter={StaticResource IOTextConverter}}"
+                                        IsEnabled="{Binding IsBusy, Converter={StaticResource BoolReverseConverter}}"
+                                        Clicked="Toggle_Clicked" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Grid.Row="3" Text="Opzioni" FontSize="18" FontAttributes="Bold" Margin="2,5,0,0" />
+            <CollectionView x:Name="OptionViews"
+                            Grid.Row="4"
+                            ItemsSource="{Binding Options}" 
+                            ItemSizingStrategy="MeasureAllItems">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="4"
+                                     VerticalItemSpacing="2"
+                                     HorizontalItemSpacing="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeThickness="1" Stroke="black">
+                            <Grid ColumnDefinitions="auto, *"
+                                  RowDefinitions="auto, auto" 
+                                  Margin="4,4,4,0">
+
+                                <Image Grid.RowSpan="2" VerticalOptions="Center" 
+                                        WidthRequest="50" HeightRequest="50" Margin="0,0,5,0">
+                                    <Image.Source>
+                                        <MultiBinding Converter="{StaticResource IOIconConverter}">
+                                            <Binding Path="Major" />
+                                            <Binding Path="IsActive" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
+
+                                <Label Grid.Column="1" Text="{Binding Description}" HorizontalTextAlignment="End" Margin="0,0,3,0" />
+
+                                <Button Grid.Row="1" Grid.Column="1"
+                                        HorizontalOptions="End" Margin="0,8,2,6"
+                                        FontSize="8" HeightRequest="30" WidthRequest="100"
+                                        Text="{Binding IsActive, Converter={StaticResource IOTextConverter}}"
+                                        IsEnabled="{Binding IsBusy, Converter={StaticResource BoolReverseConverter}}"
+                                        Clicked="Toggle_Clicked" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Border Grid.Row="5" Margin="0,7,0,0" Padding="5" StrokeThickness="1" Stroke="black"
+                    IsVisible="{Binding BottomDescription, Converter={StaticResource IsTextNotEmptyConverter}}">
+                <Label Text="{Binding BottomDescription}" />
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

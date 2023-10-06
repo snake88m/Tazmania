@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tazmania.Mobile.Views.IOGateView"
+             xmlns:converter="clr-namespace:Tazmania.Mobile.Converters"
+             Title="Varchi aperti">
+    <ContentPage.Resources>
+        <converter:IsToggleCommandConverter x:Key="IsToggleCommandConverter" />
+        <converter:BoolReverseConverter x:Key="BoolReverseConverter" />
+        <converter:IOIconConverter x:Key="IOIconConverter" />
+        <converter:IOTextConverter x:Key="IOTextConverter" />
+    </ContentPage.Resources>
+
+    <CollectionView x:Name="CollectionViewIOs"
+                    ItemsSource="{Binding IOGroupeds}" 
+                    IsGrouped="True" 
+                    ItemSizingStrategy="MeasureAllItems">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout Orientation="Vertical"
+                             Span="4"
+                             VerticalItemSpacing="2"
+                             HorizontalItemSpacing="2" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.GroupHeaderTemplate>
+            <DataTemplate>
+                <Label Text="{Binding Name}"
+                       FontSize="18"
+                       FontAttributes="Bold"/>
+            </DataTemplate>
+        </CollectionView.GroupHeaderTemplate>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Border StrokeThickness="1" Stroke="black">
+                    <Grid ColumnDefinitions="auto, *" Margin="4,4,4,0">
+
+                        <Image VerticalOptions="Center" WidthRequest="50" HeightRequest="50" Margin="5,10,5,10">
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource IOIconConverter}">
+                                    <Binding Path="Major" />
+                                    <Binding Path="IsActive" />
+                                </MultiBinding>
+                            </Image.Source>
+                        </Image>
+
+                        <Label Grid.Column="1" Text="{Binding Description}" HorizontalTextAlignment="End" VerticalTextAlignment="Center" Margin="0,0,3,0" />
+
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>
