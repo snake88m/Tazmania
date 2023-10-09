@@ -5,3 +5,5 @@ Un mini PC collegato in LAN consente lettura e scrittura dei dati tramite DFCP 4
 I comandi vengono inviati con protocollo FXP-XT.
 L'applicazione Android è stata scritta con C# MAUI.
 Tutti i moduli usati in questa demo sono DUEMMEGI tranne il combinatore GSM per effettuare chiamate.
+
+Link tutorial su YouTube: https://youtu.be/HaaFSIniXS8?si=vlD-wiRB7V5JCbOu
